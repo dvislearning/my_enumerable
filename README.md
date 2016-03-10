@@ -7,13 +7,23 @@ This exercise re-creates different various methods from the Ruby Enumerable modu
  Methods re-created are:
 
 .each
+
 .each_with_index
+
 .select
+
 .all
+
 .any
+
 .none
+
 .count
+
 .map
+
 .inject
+
 .map that takes a proc
+
 .map that takes either a block, or proc, or both.  If both, both the proc and block will be passed.
