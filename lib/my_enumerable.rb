@@ -2,12 +2,17 @@ module Enumerable
 
 def my_each
   index = 0
-  while index != self.length
-    current = self[index]
-    yield current
-    index += 1
+  if block_given?
+	  while index != self.length
+	    current = self[index]
+	    break if current == nil
+	    yield current
+	    index += 1
+	  end
+	  self
+  else
+  	self.to_enum(:my_each)
   end
-  self
 end
 
 def my_each_with_index
@@ -104,7 +109,7 @@ end
 
 
 #numbers = [33,0,-6,52,335] #Array used for testing
-#numbers.my_each {|x| puts x}
+#puts numbers.my_each{b;sh}.inspect
 #puts numbers.my_all?{|x| x.is_a? Integer}
 #numbers.my_select{|x| x < 1'0}
 #puts numbers.my_any?{|x| x == 10}
