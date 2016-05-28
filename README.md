@@ -27,3 +27,7 @@ This exercise re-creates different various methods from the Ruby Enumerable modu
 .map that takes a proc
 
 .map that takes either a block, or proc, or both.  If both, both the proc and block will be passed.
+
+####Edit
+
+RSpec tests were added a few weeks later for six of the methods above.
