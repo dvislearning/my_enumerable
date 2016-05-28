@@ -16,66 +16,94 @@ def my_each
 end
 
 def my_each_with_index
-	index = 0
-	while index != self.length
-		current = self[index]
-		yield current, index
-		index += 1
+	if block_given?
+		index = 0
+		while index != self.length
+			current = self[index]
+			yield current, index
+			index += 1
+		end
+		self
+	else
+		self.to_enum(:my_each_with_index)
 	end
-	self
 end
 
 def my_select
-	results = []
-	self.my_each do |x|
-		results << x if (yield x)
+	if block_given?
+		results = []
+		self.my_each do |x|
+			results << x if (yield x)
+		end
+		results
+	else
+		self.to_enum(:my_select)
 	end
-	results
 end
 
 def my_all?
-	self.my_each do |x|
-		return false if !(yield x)
+	if block_given?
+		self.my_each do |x|
+			return false if !(yield x)
+		end
+		true
+	else
+		self.to_enum(:my_all?)
 	end
-	true
 end
 
 def my_any?
-	self.my_each do |x|
-		return true if (yield x)
+	if block_given?
+		self.my_each do |x|
+			return true if (yield x)
+		end
+		false
+	else
+		self.to_enum(:my_any?)
 	end
-	false
 end
 
 def my_none?
-	self.my_each do |x|
-		return false if (yield x)
-	end
-	true
+	if block_given?
+		self.my_each do |x|
+			return false if (yield x)
+		end
+		true
+	else
+		self.to_enum(:my_none?)
 end
 
 def my_count
-	count = 0
-	self.my_each do |x|
-		count += 1 if (yield x)
-	end
-	count
+	if block_given?
+		count = 0
+		self.my_each do |x|
+			count += 1 if (yield x)
+		end
+		count
+	else
+	self.to_enum(:my_count)	
 end
 
 def my_map
-	container = []
-	self.my_each do |x|
-		container << (yield x)
-	end
-	container
+	if block_given?
+		container = []
+		self.my_each do |x|
+			container << (yield x)
+		end
+		container
+	else
+		self.to_enum(:my_map)	
 end
 
 def my_inject(sum = 0)
-	self.my_each do |element|
-		yield sum, element
-		sum += element
-	end
-	sum
+	if block_given?
+		self.my_each do |element|
+			yield sum, element
+			sum += element
+		end
+		sum
+	else
+		self.to_enum(:my_inject)	
 end
 
 def my_map_with_proc(proc)
@@ -109,6 +137,7 @@ end
 
 
 #numbers = [33,0,-6,52,335] #Array used for testing
+#puts numbers.my_each_with_index{ |num,index| puts index }.inspect
 #puts numbers.my_each{b;sh}.inspect
 #puts numbers.my_all?{|x| x.is_a? Integer}
 #numbers.my_select{|x| x < 1'0}
