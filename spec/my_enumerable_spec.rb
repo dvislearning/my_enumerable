@@ -69,4 +69,78 @@ describe 'my_enumerable' do
 			end						
 		end
 	end
+	describe '#my_select' do
+		context 'without block' do
+			it 'returns enumerable when no block is passed' do
+				expect(@sample_array.my_select).to be_an_instance_of(Enumerator)
+			end
+		end
+
+		context 'with block' do			
+			it 'returns an empty array when passed an empty array' do
+				expect(@temp_array.my_select {|num| num == 3}).to eql([])
+			end
+
+			it 'returns empty array when none of the block conditions are satisfied' do
+				expect(@sample_array.my_select {|num| num < -1}).to eql([])
+			end
+			it 'returns array with all values that satisfy conditions in block' do
+				expect(@sample_array.my_select {|num| num < 5}).to eql([3,0])
+			end			
+		end
+	end
+	describe '#my_any?' do
+		context 'without block' do
+			it 'returns enumerable when no block is passed' do
+				expect(@sample_array.my_any?).to be_an_instance_of(Enumerator)
+			end
+		end
+
+		context 'with block' do			
+			it 'returns false when passed an empty array' do
+				expect(@temp_array.my_any? {|num| num == 3}).to eql(false)
+			end
+			it 'returns true if atleast one of the block conditions are satisfied' do
+				expect(@sample_array.my_any? {|num| num == 3}).to eql(true)
+			end
+			it 'returns false if none of the block conditions are not satisfied' do
+				expect(@sample_array.my_any? {|num| num < -1}).to eql(false)
+			end			
+		end
+	end
+	describe '#my_count' do
+		context 'without block' do
+			it 'returns enumerable when no block is passed' do
+				expect(@sample_array.my_count).to be_an_instance_of(Enumerator)
+			end
+		end
+
+		context 'with block' do			
+			it 'returns 0 when passed an empty array' do
+				expect(@temp_array.my_count {|num| num == 3}).to eql(0)
+			end
+			it 'returns number of elements in array when no condition is given in block' do
+				expect(@sample_array.my_count {|num| num}).to eql(7)
+			end
+			it 'returns number of elements in array that satisfy condition given in block' do
+				expect(@sample_array.my_count {|num| num < 5}).to eql(2)
+			end			
+		end
+	end
+	describe '#my_inject' do
+		context 'without block' do
+			it 'returns enumerable when no block is passed' do
+				expect(@sample_array.my_inject).to be_an_instance_of(Enumerator)
+			end
+		end
+
+		context 'with block' do			
+			it 'uses sum to keep running total of values' do
+				expect(@sample_array.my_inject {|sum, value| sum + value}).to eql(38)
+			end
+			it 'uses sum to keep running total of values when passed an optional initial value to inject' do
+				expect(@sample_array.my_inject(12) {|sum, value| sum + value}).to eql(50)
+			end						
+		end
+	end		
 end
